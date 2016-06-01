@@ -18,9 +18,12 @@ import org.eclipse.che.ide.api.app.AppContext;
 import org.eclipse.che.ide.api.resources.Project;
 import org.eclipse.che.ide.ext.git.client.GitLocalizationConstant;
 import org.eclipse.che.ide.ext.git.client.GitResources;
+import org.eclipse.che.ide.ext.git.client.GitUtil;
 import org.eclipse.che.ide.ext.git.client.init.InitRepositoryPresenter;
 import org.eclipse.che.ide.api.dialogs.ConfirmCallback;
 import org.eclipse.che.ide.api.dialogs.DialogFactory;
+
+import javax.validation.constraints.NotNull;
 
 import static com.google.common.base.Preconditions.checkState;
 
@@ -61,5 +64,14 @@ public class InitRepositoryAction extends GitAction {
                                                   presenter.initRepository(project);
                                               }
                                           }, null).show();
+    }
+
+    @Override
+    public void updateInPerspective(@NotNull ActionEvent event) {
+        super.updateInPerspective(event);
+
+        final Project project = appContext.getRootProject();
+
+        event.getPresentation().setEnabled(project != null && !GitUtil.isUnderGit(project));
     }
 }
