@@ -4,6 +4,16 @@
 [![Build Status](http://ci.codenvy-dev.com/jenkins/buildStatus/icon?job=che-ci-master)](http://ci.codenvy-dev.com/jenkins/job/che-ci-master)
 
 
+
+
+
+
+
+
+
+
+
+
 https://www.eclipse.org/che/. Next-generation Eclipse IDE. Open source workspace server and cloud IDE.
 
 ![Eclipse Che](https://www.eclipse.org/che/images/hero-home.png "Eclipse Che")
