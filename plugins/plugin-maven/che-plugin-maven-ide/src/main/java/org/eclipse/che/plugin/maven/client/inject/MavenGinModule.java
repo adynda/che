@@ -20,10 +20,10 @@ import org.eclipse.che.ide.api.resources.ResourceInterceptor;
 import org.eclipse.che.ide.extension.machine.client.command.CommandType;
 import org.eclipse.che.plugin.maven.client.command.MavenCommandType;
 import org.eclipse.che.plugin.maven.client.editor.PomEditorConfigurationFactory;
-import org.eclipse.che.plugin.maven.client.editor.PomReconsilingStrategyFactory;
 import org.eclipse.che.plugin.maven.client.resource.MavenProjectInterceptor;
 import org.eclipse.che.plugin.maven.client.resource.MavenSourceFolderInterceptor;
 import org.eclipse.che.plugin.maven.client.resource.PomInterceptor;
+import org.eclipse.che.plugin.maven.client.editor.PomReconcilingStrategyFactory;
 import org.eclipse.che.plugin.maven.client.wizard.MavenProjectWizardRegistrar;
 
 /**
@@ -45,7 +45,7 @@ public class MavenGinModule extends AbstractGinModule {
         GinMultibinder.newSetBinder(binder(), ResourceInterceptor.class).addBinding().to(PomInterceptor.class);
         GinMultibinder.newSetBinder(binder(), ResourceInterceptor.class).addBinding().to(MavenProjectInterceptor.class);
 
-        install(new GinFactoryModuleBuilder().build(PomReconsilingStrategyFactory.class));
+        install(new GinFactoryModuleBuilder().build(PomReconcilingStrategyFactory.class));
         install(new GinFactoryModuleBuilder().build(PomEditorConfigurationFactory.class));
     }
 }
