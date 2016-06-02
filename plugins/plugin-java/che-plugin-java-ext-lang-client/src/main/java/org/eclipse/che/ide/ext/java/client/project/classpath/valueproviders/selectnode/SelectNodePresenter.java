@@ -21,7 +21,6 @@ import org.eclipse.che.ide.ext.java.client.project.classpath.valueproviders.page
 import org.eclipse.che.ide.ext.java.client.project.classpath.valueproviders.selectnode.interceptors.ClasspathNodeInterceptor;
 import org.eclipse.che.ide.ext.java.client.project.classpath.valueproviders.selectnode.interceptors.JarNodeInterceptor;
 import org.eclipse.che.ide.resources.tree.ResourceNode;
-import org.vectomatic.dom.svg.ui.SVGResource;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -87,10 +86,10 @@ public class SelectNodePresenter implements SelectNodeView.ActionDelegate {
 
     /** {@inheritDoc} */
     @Override
-    public void setSelectedNode(String path, SVGResource icon) {
+    public void setSelectedNode(String path) {
         if (interceptor instanceof JarNodeInterceptor) {
             path = WORKSPACE_PATH + path;
         }
-        classpathPagePresenter.addNode(path, interceptor.getKind(), icon);
+        classpathPagePresenter.addNode(path, interceptor.getKind());
     }
 }

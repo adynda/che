@@ -105,8 +105,12 @@ public class JavaCommandPagePresenter implements JavaCommandPageView.ActionDeleg
         final Path relPath = resource.getLocation().removeFirstSegments(project.get().getLocation().segmentCount());
 
         view.setMainClass(relPath.toString());
-        editedConfiguration.setCommandLine(editedConfiguration.getCommandLine().replace(editedConfiguration.getMainClass(), relPath.toString()));
-        editedConfiguration.setCommandLine(editedConfiguration.getCommandLine().replace(editedConfiguration.getMainClassFqn(),fqn));
+
+        String commandLine = editedConfiguration.getCommandLine();
+        commandLine = commandLine.replace(editedConfiguration.getMainClass(), relPath.toString());
+        commandLine = commandLine.replace(' ' + editedConfiguration.getMainClassFqn(),' ' + fqn);
+        editedConfiguration.setCommandLine(commandLine);
+
         editedConfiguration.setMainClass(relPath.toString());
         listener.onDirtyStateChanged();
     }

@@ -35,7 +35,6 @@ import org.eclipse.che.ide.ui.smartTree.NodeStorage;
 import org.eclipse.che.ide.ui.smartTree.Tree;
 import org.eclipse.che.ide.ui.smartTree.event.SelectionChangedEvent;
 import org.eclipse.che.ide.ui.window.Window;
-import org.vectomatic.dom.svg.ui.SVGResource;
 
 import java.util.HashSet;
 import java.util.List;
@@ -168,18 +167,7 @@ public class SelectNodeViewImpl extends Window implements SelectNodeView {
             return;
         }
         Node selectedNode = nodes.get(0);
-        SVGResource icon;
-        if (ClasspathEntryKind.SOURCE == interceptor.getKind()) {
-            icon = javaResources.sourceFolder();
-        } else if (selectedNode.getName().endsWith(".jar")) {
-            icon = javaResources.jarFileIcon();
-        } else {
-            icon = nodesResources.simpleFolder();
-        }
-
-        if (selectedNode instanceof ResourceNode) {
-            delegate.setSelectedNode(((ResourceNode)selectedNode).getData().getLocation().toString(), icon);
-        }
+        delegate.setSelectedNode(((ResourceNode)selectedNode).getData().getLocation().toString());
 
         hide();
     }
