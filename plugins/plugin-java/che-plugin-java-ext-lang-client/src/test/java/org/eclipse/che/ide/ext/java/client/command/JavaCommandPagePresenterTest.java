@@ -137,24 +137,4 @@ public class JavaCommandPagePresenterTest {
 //
 //        verify(listener).onDirtyStateChanged();
     }
-
-    @Test
-    public void mainClassShouldBeUpdated2() throws Exception {
-        CommandConfigurationPage.DirtyStateListener listener = mock(CommandConfigurationPage.DirtyStateListener.class);
-        String oldMainClass = "src/Main.java";
-        String oldMainClassFqn = "Main";
-
-        when(configuration.getMainClass()).thenReturn(oldMainClass);
-        when(configuration.getMainClassFqn()).thenReturn(oldMainClassFqn);
-
-        presenter.setDirtyStateListener(listener);
-        presenter.resetFrom(configuration);
-        presenter.setMainClass(MAIN_CLASS_PATH, MAIN_CLASS_FQN);
-
-        verify(view).setMainClass(RELATIVE_MAIN_CLASS_PATH);
-        verify(configuration).setMainClass(RELATIVE_MAIN_CLASS_PATH);
-        verify(configuration).setCommandLine(NEW_COMMAND_LINE);
-
-        verify(listener).onDirtyStateChanged();
-    }
 }
