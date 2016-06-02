@@ -272,7 +272,7 @@ public class GitServiceClientImpl implements GitServiceClient {
 
                     final List<String> patterns = new ArrayList<>(); //need for compatible with server side
                     for (Path path : paths) {
-                        patterns.add(path.toString());
+                        patterns.add(path.isEmpty() ? "." : path.toString());
                     }
 
                     addRequest.setFilepattern(patterns);
@@ -351,7 +351,7 @@ public class GitServiceClientImpl implements GitServiceClient {
         List<String> paths = new ArrayList<>(files.length);
 
         for (Path file : files) {
-            paths.add(file.toString());
+            paths.add(file.isEmpty() ? "." : file.toString());
         }
 
         CommitRequest commitRequest = dtoFactory.createDto(CommitRequest.class)
@@ -614,7 +614,7 @@ public class GitServiceClientImpl implements GitServiceClient {
 
         if (items != null) {
             for (Path item : items) {
-                files.add(item.toString());
+                files.add(item.isEmpty() ? "." : item.toString());
             }
         }
 
@@ -651,7 +651,7 @@ public class GitServiceClientImpl implements GitServiceClient {
         if (files != null) {
             List<String> fileList = new ArrayList<>(files.length);
             for (Path file : files) {
-                fileList.add(file.toString());
+                fileList.add(file.isEmpty() ? "." : file.toString());
             }
             resetRequest.setFilePattern(fileList);
         }
@@ -681,7 +681,7 @@ public class GitServiceClientImpl implements GitServiceClient {
             paths = new ArrayList<>(fileFilter.length);
 
             for (Path file : fileFilter) {
-                paths.add(file.toString());
+                paths.add(file.isEmpty() ? "." : file.toString());
             }
         }
 

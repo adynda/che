@@ -120,7 +120,7 @@ public class AddToIndexPresenter implements AddToIndexView.ActionDelegate {
 
             final Path tmpPath = resources[i].getLocation().removeFirstSegments(project.getLocation().segmentCount());
 
-            paths[i] = tmpPath.isEmpty() ? tmpPath.append(".") : tmpPath;
+            paths[i] = tmpPath.segmentCount() == 0 ? Path.EMPTY : tmpPath;
         }
 
         service.add(appContext.getDevMachine(), project.getLocation(), view.isUpdated(), paths).then(new Operation<Void>() {

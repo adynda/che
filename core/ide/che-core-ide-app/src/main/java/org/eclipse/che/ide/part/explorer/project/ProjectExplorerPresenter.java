@@ -203,7 +203,9 @@ public class ProjectExplorerPresenter extends BasePresenter implements ActionDel
 
         for (Node node : tree.getNodeStorage().getAll()) {
             if (node instanceof ResourceNode && ((ResourceNode)node).getData().getLocation().equals(delta.getResource().getLocation())) {
+                final String oldId = tree.getNodeStorage().getKeyProvider().getKey(node);
                 ((ResourceNode)node).setData(delta.getResource());
+                tree.getNodeStorage().reIndexNode(oldId, node);
                 tree.refresh(node);
                 return;
             }

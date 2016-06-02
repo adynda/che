@@ -306,6 +306,17 @@ public final class ResourceManager {
                         //cache new configs
                         cachedConfigs = updatedConfiguration.toArray(new ProjectConfigDto[updatedConfiguration.size()]);
 
+                        if (maxDepth[0] == 0) {
+                            Resource interceptedResource = newResource;
+                            for (ResourceInterceptor interceptor : resourceInterceptors) {
+                                interceptedResource = interceptor.intercept(interceptedResource);
+                            }
+
+                            eventBus.fireEvent(new ResourceChangedEvent(new ResourceDeltaImpl(interceptedResource, UPDATED | DERIVED)));
+
+                            return promises.resolve((Project)interceptedResource);
+                        }
+
                         return getRemoteResources(newResource, maxDepth[0], true, false).then(new Function<Resource[], Project>() {
                             @Override
                             public Project apply(Resource[] ignored) throws FunctionException {
@@ -421,7 +432,6 @@ public final class ResourceManager {
         return findResource(path, true).thenPromise(new Function<Optional<Resource>, Promise<Project>>() {
             @Override
             public Promise<Project> apply(Optional<Resource> resource) throws FunctionException {
-                checkState(!resource.isPresent(), "Resource already exists");
 
                 final ProjectConfigDto dto = dtoFactory.createDto(ProjectConfigDto.class)
                                                        .withPath(path.toString())
@@ -429,6 +439,12 @@ public final class ResourceManager {
                                                        .withType(createRequest.getBody().getType())
                                                        .withMixins(createRequest.getBody().getMixins())
                                                        .withAttributes(createRequest.getBody().getAttributes());
+
+                if (resource.isPresent()) {
+                    checkState(resource.get().isFolder() || resource.get().isProject(), "File can not be translated to a project");
+
+                    return update(path, createRequest);
+                }
 
                 return ps.createProject(devMachine, dto).thenPromise(new Function<ProjectConfigDto, Promise<Project>>() {
                     @Override
@@ -468,7 +484,6 @@ public final class ResourceManager {
         return findResource(path, true).thenPromise(new Function<Optional<Resource>, Promise<Project>>() {
             @Override
             public Promise<Project> apply(final Optional<Resource> resource) throws FunctionException {
-//                checkState(resource.isPresent() && resource.get().isProject() && !((Project)resource.get()).exists(), "Resource already exists");
 
                 final SourceStorage sourceStorage = importRequest.getBody().getSource();
                 final SourceStorageDto sourceStorageDto = dtoFactory.createDto(SourceStorageDto.class)

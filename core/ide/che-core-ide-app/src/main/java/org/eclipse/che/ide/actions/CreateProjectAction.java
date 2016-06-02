@@ -56,7 +56,7 @@ public class CreateProjectAction extends AbstractPerspectiveAction {
             final Resource resource = resources[0];
             final Path path;
 
-            if (resource.getResourceType() == Resource.PROJECT || resource.getResourceType() == Resource.FILE) {
+            if (resource.getResourceType() == Resource.FILE) {
                 final Optional<Container> parent = resource.getParent();
 
                 if (parent.isPresent()) {

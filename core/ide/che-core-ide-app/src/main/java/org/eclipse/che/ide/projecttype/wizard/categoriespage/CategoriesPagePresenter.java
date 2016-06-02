@@ -62,6 +62,7 @@ public class CategoriesPagePresenter extends AbstractWizardPage<MutableProjectCo
     private       ProjectTypeSelectionListener     projectTypeSelectionListener;
     private       ProjectTemplateSelectionListener projectTemplateSelectionListener;
     private       boolean                          initialized;
+    private       Path                             originParent;
 
     @Inject
     public CategoriesPagePresenter(CategoriesPageView view,
@@ -95,7 +96,8 @@ public class CategoriesPagePresenter extends AbstractWizardPage<MutableProjectCo
 
         final ProjectWizardMode wizardMode = ProjectWizardMode.parse(context.get(WIZARD_MODE_KEY));
 
-        view.setParentPath(Path.valueOf(dataObject.getPath()));
+        originParent = Path.valueOf(dataObject.getPath());
+        view.setParentPath(originParent);
 
         if (CREATE == wizardMode) {
             // set pre-selected project type
@@ -165,7 +167,7 @@ public class CategoriesPagePresenter extends AbstractWizardPage<MutableProjectCo
     @Override
     public void projectNameChanged(String name) {
         dataObject.setName(name);
-        dataObject.setPath(Path.valueOf(name).makeAbsolute().toString());
+        dataObject.setPath(originParent.append(name).toString());
         updateDelegate.updateControls();
 
         if (NameUtils.checkProjectName(name)) {
@@ -186,7 +188,7 @@ public class CategoriesPagePresenter extends AbstractWizardPage<MutableProjectCo
         selectPathPresenter.show(new Resource[]{appContext.getWorkspaceRoot()}, false, new SelectionPathHandler() {
             @Override
             public void onPathSelected(Path path) {
-                dataObject.setPath(path.toString());
+                dataObject.setPath(path.append(dataObject.getName()).toString());
                 view.setParentPath(path);
             }
 

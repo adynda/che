@@ -75,7 +75,7 @@ public class RefactoringUpdater {
                     delta = new ExternalResourceDelta(newPath, oldPath, ADDED | MOVED_FROM | MOVED_TO);
                     break;
                 case UPDATE:
-                    if (!oldPath.isEmpty()) {
+                    if (oldPath.isEmpty()) {
                         continue;
                     }
 
